@@ -5,14 +5,21 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
-    public static final String DB_URL = "jdbc:mysql://"
-            + System.getenv("DB_HOST") + ":"
-            + System.getenv("DB_PORT") + "/"
-            + System.getenv("DB_NAME");
-    public static final String DB_USER = System.getenv("DB_USER");
-    public static final String DB_PASS = System.getenv("DB_PASS");
+    public static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
+    public static final String DB_USER = "root";
+    public static final String DB_PASS = "mypass";
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+    private final Connection connection;
+
+    public Util() {
+        try {
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 }
